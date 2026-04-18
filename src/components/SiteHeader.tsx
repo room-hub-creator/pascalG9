@@ -1,7 +1,9 @@
-import { Sigma } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
-export type Section = "calculator" | "expansion" | "tutor" | "history" | "blueprint";
+export type Section = "calculator" | "expansion" | "tutor" | "history" | "documentation" | "contributors";
 
 interface SiteHeaderProps {
   active: Section;
@@ -13,59 +15,78 @@ const NAV: Array<{ id: Section; label: string }> = [
   { id: "expansion", label: "Expansion" },
   { id: "tutor", label: "Tutor" },
   { id: "history", label: "History" },
-  { id: "blueprint", label: "Blueprint" },
+  { id: "documentation", label: "Docs" },
+  { id: "contributors", label: "Group" },
 ];
 
 export const SiteHeader = ({ active, onChange }: SiteHeaderProps) => {
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+      root.style.colorScheme = "dark";
+    } else {
+      root.classList.remove("dark");
+      root.style.colorScheme = "light";
+    }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
   return (
-    <header className="sticky top-0 z-40 glass border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
+        {/* Logo Left */}
         <button
           onClick={() => onChange("calculator")}
-          className="flex items-center gap-3 group"
-          aria-label="Pascal Coefficients home"
+          className="flex items-center gap-2 group"
         >
-          <div className="h-10 w-10 rounded-xl bg-[var(--gradient-primary)] flex items-center justify-center shadow-[var(--shadow-glow)] transition-[var(--transition-smooth)] group-hover:scale-105">
-            <Sigma className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
-          </div>
-          <div className="text-left leading-tight">
-            <div className="font-bold text-base">Pascal</div>
-            <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
-              Coefficients
-            </div>
-          </div>
+          <div className="font-black text-2xl tracking-tighter text-primary">PASCAL</div>
+          <div className="hidden sm:block h-6 w-[1px] bg-border/50 mx-2" />
+          <div className="hidden sm:block text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-black">Binomial Engine</div>
         </button>
 
-        <nav className="hidden md:flex items-center gap-1">
-          {NAV.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => onChange(item.id)}
-              className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-[var(--transition-smooth)]",
-                active === item.id
-                  ? "bg-primary/15 text-primary border border-primary/30"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
-              )}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
+        {/* Nav Right */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <nav className="hidden lg:flex items-center gap-2 mr-6">
+            {NAV.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => onChange(item.id)}
+                className={cn(
+                  "px-4 py-2 text-[15px] font-bold rounded-xl transition-all",
+                  active === item.id
+                    ? "bg-primary text-primary-foreground shadow-md scale-105"
+                    : "text-muted-foreground hover:bg-secondary/80 hover:text-foreground"
+                )}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-        {/* Mobile select */}
-        <select
-          aria-label="Section"
-          className="md:hidden bg-secondary border border-border rounded-lg px-3 py-2 text-sm"
-          value={active}
-          onChange={(e) => onChange(e.target.value as Section)}
-        >
-          {NAV.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.label}
-            </option>
-          ))}
-        </select>
+          <div className="flex lg:hidden items-center mr-2">
+             <select 
+               value={active} 
+               onChange={(e) => onChange(e.target.value as Section)}
+               className="bg-secondary/80 border-border text-[12px] font-bold rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-primary"
+             >
+                {NAV.map(n => <option key={n.id} value={n.id}>{n.label}</option>)}
+             </select>
+          </div>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-11 w-11 rounded-xl border-border/60 bg-secondary/30 hover:bg-secondary/80 transition-transform active:scale-95"
+            aria-label="Toggle Theme"
+          >
+            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
     </header>
   );

@@ -4,10 +4,14 @@ import { CalculatorSection } from "@/components/sections/CalculatorSection";
 import { ExpansionSection } from "@/components/sections/ExpansionSection";
 import { TutorSection } from "@/components/sections/TutorSection";
 import { HistorySection } from "@/components/sections/HistorySection";
-import { BlueprintSection } from "@/components/sections/BlueprintSection";
+import { DocumentationSection } from "@/components/sections/DocumentationSection";
+import { ContributorsSection } from "@/components/sections/ContributorsSection";
+import { AIAssistant } from "@/components/AIAssistant";
 
 const Index = () => {
   const [section, setSection] = useState<Section>("calculator");
+
+  console.log("Pascal's Brain: Index Rendering Section:", section);
 
   return (
     <div className="min-h-screen">
@@ -17,10 +21,15 @@ const Index = () => {
         {section === "expansion" && <ExpansionSection />}
         {section === "tutor" && <TutorSection />}
         {section === "history" && <HistorySection />}
-        {section === "blueprint" && <BlueprintSection />}
+        {section === "documentation" && <DocumentationSection />}
+        {section === "contributors" && <ContributorsSection />}
       </main>
-      <footer className="border-t border-border/60 py-6 text-center text-xs text-muted-foreground">
-        MA80443 · Project 1 · Built with React + BigInt · AI tutor by Groq
+      
+      {/* Persistent AI Tutor for all navs */}
+      <AIAssistant />
+
+      <footer className="border-t border-border/60 py-6 text-center text-[10px] tracking-widest text-muted-foreground uppercase bg-secondary/20">
+        MA80443 · Group 9 · Academic Year 2025/2026 · Multi-Precision Engine
       </footer>
     </div>
   );
