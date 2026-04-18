@@ -1,11 +1,8 @@
 // Efficient binomial coefficient computation using BigInt.
-// Uses symmetry C(n, r) = C(n, n - r) and multiplicative formula
-// to avoid building the full triangle for very large n.
 
 export function binomial(n: number, r: number): bigint {
   if (r < 0 || r > n) return 0n;
   if (r === 0 || r === n) return 1n;
-  // Symmetry: minimize multiplications
   const k = r > n - r ? n - r : r;
   let result = 1n;
   const N = BigInt(n);
@@ -15,7 +12,7 @@ export function binomial(n: number, r: number): bigint {
   return result;
 }
 
-// Build only the rows needed (0..maxRow). Each row reuses the previous one.
+// Build only rows 0..maxRow (each row from previous).
 export function buildPascalRows(maxRow: number): bigint[][] {
   const rows: bigint[][] = [];
   for (let n = 0; n <= maxRow; n++) {
@@ -30,16 +27,21 @@ export function buildPascalRows(maxRow: number): bigint[][] {
   return rows;
 }
 
-// Format a BigInt with thousands separators.
 export function formatBigInt(value: bigint): string {
   return value.toLocaleString("en-US");
 }
 
-// Truncate very long numbers for display in tight spaces.
-export function truncateNumber(value: bigint, maxLen = 40): string {
+export function shortBigInt(value: bigint, head = 8, tail = 8): string {
   const s = value.toString();
-  if (s.length <= maxLen) return s;
-  const head = s.slice(0, 12);
-  const tail = s.slice(-12);
-  return `${head}…${tail} (${s.length} digits)`;
+  if (s.length <= head + tail + 3) return s;
+  return `${s.slice(0, head)}…${s.slice(-tail)}`;
+}
+
+// Expansion of (a + b)^n: returns terms with coefficient and exponents.
+export function expandBinomial(n: number): Array<{ coef: bigint; aExp: number; bExp: number }> {
+  const terms = [];
+  for (let r = 0; r <= n; r++) {
+    terms.push({ coef: binomial(n, r), aExp: n - r, bExp: r });
+  }
+  return terms;
 }
