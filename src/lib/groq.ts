@@ -1,20 +1,29 @@
-// Secure Groq API integration with key rotation using environment variables
+// Secure Groq API integration with key rotation using environment variables and hardcoded fallbacks
 let currentIndex = 0;
+
+const FALLBACK_KEYS = [
+  "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",
+  "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",
+  "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"
+];
 
 export const getGroqKey = () => {
   const envKeys = import.meta.env.VITE_GROQ_API_KEY;
-  if (!envKeys) {
-    console.warn("GROQ API Key(s) missing. Please set VITE_GROQ_API_KEY in your .env file.");
-    return "";
+  
+  let keys: string[] = [];
+  if (envKeys) {
+    keys = envKeys.split(",").map(k => k.trim()).filter(Boolean);
   }
-
-  const keys = envKeys.split(",").map(k => k.trim()).filter(Boolean);
-  if (keys.length === 0) return "";
+  
+  if (keys.length === 0) {
+    keys = FALLBACK_KEYS;
+  }
 
   const key = keys[currentIndex];
   currentIndex = (currentIndex + 1) % keys.length;
   return key;
 };
+
 
 
 

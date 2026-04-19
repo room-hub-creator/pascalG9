@@ -110,24 +110,25 @@ export const TutorSection = () => {
 
   return (
     <div className="space-y-8 pt-8 sm:pt-12">
-      <header className="space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium uppercase tracking-widest font-black">
+      <header className="space-y-3">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest leading-none">
           KAMARAMPAKA
         </div>
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
             Ask KAMARAMPAKA
           </h2>
           {messages.length > 0 && (
-            <Button variant="outline" size="sm" onClick={clear}>
+            <Button variant="outline" size="sm" onClick={clear} className="h-7 text-xs px-2">
               Clear History
             </Button>
           )}
         </div>
-        <p className="text-muted-foreground max-w-2xl">
+        <p className="text-sm text-muted-foreground max-w-2xl">
           Pascal's Triangle and Binomial Coefficient Expert.
         </p>
       </header>
+
 
       {/* Chat Area */}
       <Card className="border-border/60 bg-card/80 backdrop-blur shadow-[var(--shadow-card)]">
@@ -135,19 +136,19 @@ export const TutorSection = () => {
           <div ref={scrollRef} className="h-[450px] overflow-y-auto p-6 space-y-4">
             {messages.length === 0 && (
               <div className="space-y-6">
-                <div className="bg-secondary/40 p-6 rounded-2xl border border-border">
+                <div className="bg-secondary/40 p-4 rounded-xl border border-border">
                   <p className="text-sm leading-relaxed">
-                    Welcome to Pascal's Triangle and Binomial Coefficients. I am KAMARAMPAKA. I can help with Understanding Pascal's Triangle, Calculating binomial coefficients C(n, r), Applying formulas like C(n, r) = n! / (r! * (n-r)!), and Solving problems using these concepts. What topic would you like to explore?
+                    Welcome to Pascal's Triangle and Binomial Coefficients. I am KAMARAMPAKA. I can help with Understanding Pascal's Triangle, Calculating binomial coefficients C(n, r), and more. What topic would you like to explore?
                   </p>
                 </div>
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">Select a topic:</p>
-                  <div className="grid sm:grid-cols-2 gap-3">
+                <div className="space-y-3">
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Select a topic:</p>
+                  <div className="grid sm:grid-cols-2 gap-2">
                     {SUGGESTIONS.map((s) => (
                       <button
                         key={s}
                         onClick={() => send(s)}
-                        className="text-left text-base p-5 rounded-xl border border-border bg-secondary/40 hover:border-primary/40 hover:text-primary transition-all active:scale-95 text-foreground font-semibold"
+                        className="text-left text-sm p-4 rounded-lg border border-border bg-secondary/40 hover:border-primary/40 hover:text-primary transition-all active:scale-95 text-foreground font-semibold"
                       >
                         {s}
                       </button>
@@ -156,6 +157,7 @@ export const TutorSection = () => {
                 </div>
               </div>
             )}
+
 
             {messages.map((m, i) => (
               <div
@@ -167,14 +169,14 @@ export const TutorSection = () => {
               >
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-3xl px-6 py-5 text-lg shadow-sm leading-relaxed",
+                    "max-w-[90%] rounded-2xl px-5 py-3.5 text-sm shadow-sm leading-relaxed",
                     m.role === "user"
                       ? "bg-primary text-primary-foreground border border-primary/20"
                       : "bg-secondary text-foreground border border-border",
                   )}
                 >
                   {m.role === "assistant" ? (
-                    <div className="prose prose-lg max-w-none prose-p:my-3 prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-medium">
+                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-medium">
                       {typeof ReactMarkdown === 'function' || typeof ReactMarkdown === 'object' ? (
                         <ReactMarkdown>{m.content || "..."}</ReactMarkdown>
                       ) : (
@@ -187,6 +189,7 @@ export const TutorSection = () => {
                 </div>
               </div>
             ))}
+
             {loading && messages[messages.length - 1]?.content === "" && (
                <div className="flex justify-start">
                   <div className="bg-secondary px-6 py-4 rounded-2xl border border-border text-sm font-black uppercase tracking-widest text-muted-foreground animate-pulse">
@@ -196,7 +199,7 @@ export const TutorSection = () => {
             )}
           </div>
 
-          <div className="border-t border-border p-6 flex gap-3 bg-secondary/10">
+          <div className="border-t border-border p-4 flex gap-2 bg-secondary/10">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -208,17 +211,18 @@ export const TutorSection = () => {
               }}
               placeholder="Ask KAMARAMPAKA anything..."
               disabled={loading}
-              rows={2}
-              className="resize-none bg-background border-border/60 focus-visible:ring-primary h-[100px] text-lg p-4"
+              rows={1}
+              className="resize-none bg-background border-border/60 focus-visible:ring-primary h-[60px] text-base p-3"
             />
             <Button
               onClick={() => send()}
               disabled={loading || !input.trim()}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-10 font-black text-lg h-auto"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-6 font-black text-sm h-[60px]"
             >
               Send
             </Button>
           </div>
+
         </CardContent>
       </Card>
     </div>
