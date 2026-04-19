@@ -52,13 +52,14 @@ export const PascalTriangle = ({
                   key={r}
                   style={heatStyle}
                   className={cn(
-                    "min-w-[2.5rem] px-2 py-1.5 rounded-lg text-center text-[11px] sm:text-xs font-mono font-semibold",
+                    "min-w-[2.5rem] px-2 py-1.5 rounded-lg text-center text-[10px] sm:text-xs font-math font-semibold",
                     "border border-border bg-secondary/50 transition-[var(--transition-smooth)]",
                     mode === "interactive" &&
                       "hover:bg-primary/10 hover:border-primary/40 hover:scale-105",
                     isHighlight &&
                       "bg-[var(--gradient-primary)] text-primary-foreground border-primary scale-110 shadow-[var(--shadow-glow)] z-10",
                   )}
+
                   title={`C(${n}, ${r}) = ${value.toString()}`}
                 >
                   {shortBigInt(value, 4, 4)}

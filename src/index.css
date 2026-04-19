@@ -93,16 +93,21 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-sans;
     background: var(--gradient-bg);
     background-attachment: fixed;
     min-height: 100vh;
-    font-feature-settings: "cv11", "ss01";
+    font-feature-settings: "cv11", "ss01", "cv08";
   }
 }
 
 @layer utilities {
+  .font-math {
+    font-family: 'EB Garamond', serif;
+    font-variant-numeric: oldstyle-nums;
+  }
   .text-gradient {
+
     background: var(--gradient-headline);
     -webkit-background-clip: text;
     background-clip: text;
