@@ -3,42 +3,45 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const CONTRIBUTORS = [
   {
-    name: "Member 1",
+    name: "ISHIMWE Prince",
     role: "Project Lead",
     bio: "Lead architect of the Pascal's Triangle implementation and BigInt optimization logic.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/ISHIMWE.jpg",
   },
   {
-    name: "Member 2",
+    name: "UWERA Deborah",
     role: "UI/UX Designer",
     bio: "Focused on creating the premium glassmorphism interface and responsive design.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/UWERA.jpeg",
   },
   {
-    name: "Member 3",
+    name: "UKUNDIMANA Redempta",
     role: "Data Analyst",
     bio: "Handled data structures and accuracy testing for large binomial coefficient outputs.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/UKUNDIMANA.jpeg",
   },
   {
-    name: "Member 4",
+    name: "MUTUYIMANA Clemance",
     role: "Project Coordinator",
     bio: "Managed academic documentation and synchronized development phases.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/MUTUYIMANA.jpeg",
   },
   {
-    name: "Member 5",
+    name: "TUYISHIME Innocent",
     role: "Algorithm Specialist",
     bio: "Optimized recursive properties and handled edge cases for multi-precision engine.",
-    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/TUYISHIME.jpeg",
   },
   {
-    name: "Member 6",
+    name: "MBONIGABA Ananie",
     role: "QA Engineer",
     bio: "Conducted rigorous unit testing and validated mathematical proofs.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200",
+    image: "/MBONIGABA.jpeg",
   },
 ];
+
+
+
 
 
 export const ContributorsSection = () => {
@@ -67,9 +70,11 @@ export const ContributorsSection = () => {
                 <img 
                   src={member.image} 
                   alt={member.name} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-contain p-2 transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-primary/5 -z-10 bg-secondary/30" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+
                 <div className="absolute bottom-4 left-6">
                   <h3 className="text-xl font-bold text-white">{member.name}</h3>
                   <p className="text-sm text-primary font-medium">{member.role}</p>
