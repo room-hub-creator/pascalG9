@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 const CONTRIBUTORS = [
   {
     name: "Member 1",
-    role: "Project Developer",
+    role: "Project Lead",
     bio: "Lead architect of the Pascal's Triangle implementation and BigInt optimization logic.",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200",
   },
@@ -20,7 +20,26 @@ const CONTRIBUTORS = [
     bio: "Handled data structures and accuracy testing for large binomial coefficient outputs.",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200",
   },
+  {
+    name: "Member 4",
+    role: "Project Coordinator",
+    bio: "Managed academic documentation and synchronized development phases.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200",
+  },
+  {
+    name: "Member 5",
+    role: "Algorithm Specialist",
+    bio: "Optimized recursive properties and handled edge cases for multi-precision engine.",
+    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80&w=200&h=200",
+  },
+  {
+    name: "Member 6",
+    role: "QA Engineer",
+    bio: "Conducted rigorous unit testing and validated mathematical proofs.",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200",
+  },
 ];
+
 
 export const ContributorsSection = () => {
   return (

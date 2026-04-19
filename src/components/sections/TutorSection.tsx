@@ -176,7 +176,8 @@ export const TutorSection = () => {
                   )}
                 >
                   {m.role === "assistant" ? (
-                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-medium">
+                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-normal">
+
                       {typeof ReactMarkdown === 'function' || typeof ReactMarkdown === 'object' ? (
                         <ReactMarkdown>{m.content || "..."}</ReactMarkdown>
                       ) : (
@@ -184,7 +185,8 @@ export const TutorSection = () => {
                       )}
                     </div>
                   ) : (
-                    <p className="whitespace-pre-wrap leading-relaxed font-semibold">{m.content}</p>
+                    <p className="whitespace-pre-wrap leading-relaxed font-normal">{m.content}</p>
+
                   )}
                 </div>
               </div>
