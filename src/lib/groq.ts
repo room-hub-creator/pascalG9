@@ -1,17 +1,22 @@
-// Secure Groq API integration with key rotation
-const KEYS = [
-  "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",
-  "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",
-  "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"
-];
-
+// Secure Groq API integration with key rotation using environment variables
 let currentIndex = 0;
 
 export const getGroqKey = () => {
-  const key = KEYS[currentIndex];
-  currentIndex = (currentIndex + 1) % KEYS.length;
+  const envKeys = import.meta.env.VITE_GROQ_API_KEY;
+  if (!envKeys) {
+    console.warn("GROQ API Key(s) missing. Please set VITE_GROQ_API_KEY in your .env file.");
+    return "";
+  }
+
+  const keys = envKeys.split(",").map(k => k.trim()).filter(Boolean);
+  if (keys.length === 0) return "";
+
+  const key = keys[currentIndex];
+  currentIndex = (currentIndex + 1) % keys.length;
   return key;
 };
+
+
 
 export const GROQ_MODEL = "llama-3.3-70b-versatile";
 export const GROQ_SYSTEM_PROMPT = `You are KAMARAMPAKA, an expert mathematical tutor. 

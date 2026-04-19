@@ -18,7 +18,7 @@ export const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "bot",
-      content: "Welcome to Pascal's Triangle and Binomial Coefficients. I can help with: Understanding Pascal's Triangle, Calculating binomial coefficients C(n, r), Applying formulas like C(n, r) = n! / (r! * (n-r)!), and Solving problems using these concepts. What topic would you like to explore?",
+      content: "Greetings. I am KAMARAMPAKA, your mathematical tutor for Pascal's Triangle and Binomial Coefficients. \n\nI can assist you with: \n• Understanding the properties of Pascal's Triangle\n• Step-by-step C(n, r) calculations\n• Binomial expansions and theorem applications\n• Solving complex combinatorial problems\n\nWhat mathematical concept shall we explore together?",
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);

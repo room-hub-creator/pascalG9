@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { History as HistoryIcon, Trash2 } from "lucide-react";
+import { History as HistoryIcon, Trash2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { clearHistory, getHistory, type HistoryItem } from "@/lib/history";
@@ -18,6 +18,18 @@ export const HistorySection = () => {
     toast.success("History cleared");
   };
 
+  const handleExport = () => {
+    if (items.length === 0) return;
+    const blob = new Blob([JSON.stringify(items, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `pascal-history-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("History exported to JSON");
+  };
+
   return (
     <div className="space-y-8 pt-8 sm:pt-12">
       <header className="space-y-4">
@@ -30,9 +42,14 @@ export const HistorySection = () => {
             Your <span className="text-gradient">computations</span>
           </h2>
           {items.length > 0 && (
-            <Button variant="outline" size="sm" onClick={handleClear}>
-              <Trash2 className="h-4 w-4" /> Clear
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={handleExport}>
+                <Download className="h-4 w-4" /> Export
+              </Button>
+              <Button variant="secondary" size="sm" onClick={handleClear}>
+                <Trash2 className="h-4 w-4 text-destructive" /> Clear
+              </Button>
+            </div>
           )}
         </div>
         <p className="text-muted-foreground max-w-2xl">
