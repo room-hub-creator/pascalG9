@@ -24,7 +24,7 @@ export const BlueprintSection = () => {
           body={
             <>
               Instead of computing factorials (which overflow fast), we accumulate{" "}
-              <code className="font-mono text-primary">C(n, r) = ∏ (n − i + 1) / i</code> for{" "}
+              <code className="font-mono text-primary">C(n, r) = ∏ (n − i + 1) ÷ i</code> for{" "}
               i = 1..r. Only r multiplications and r divisions.
             </>
           }

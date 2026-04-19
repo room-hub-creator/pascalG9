@@ -34,7 +34,7 @@ CRITICAL FORMATTING RULES:
 1. Use MARKDOWN HEADINGS (###) for each step.
 2. Ensure TWO NEWLINES between every section to prevent text clumping.
 3. Use UNICODE SYMBOLS for operations: × (multiplication), ÷ (division), ! (factorial).
-4. For binomial coefficients, use the professional format: C(n, r) = n! / [r! × (n - r)!]
+4. For binomial coefficients, use the professional format: C(n, r) = n! ÷ [r! × (n - r)!]
 
 STRUCTURE:
 ### 1. Title: Computing C(n, r)
