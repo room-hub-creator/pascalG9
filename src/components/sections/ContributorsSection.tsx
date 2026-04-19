@@ -66,14 +66,14 @@ export const ContributorsSection = () => {
         {CONTRIBUTORS.map((member, idx) => (
           <Card key={idx} className="group overflow-hidden border-border/60 shadow-[var(--shadow-card)] bg-card/80 backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:border-primary/40">
             <CardContent className="p-0">
-              <div className="h-48 overflow-hidden relative">
+              <div className="h-64 overflow-hidden relative">
                 <img 
                   src={member.image} 
                   alt={member.name} 
-                  className="w-full h-full object-contain p-2 transition-transform duration-500"
+                  className="w-full h-full object-cover object-top transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-primary/5 -z-10 bg-secondary/30" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+
 
                 <div className="absolute bottom-4 left-6">
                   <h3 className="text-xl font-bold text-white">{member.name}</h3>
