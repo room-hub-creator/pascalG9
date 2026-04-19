@@ -16,7 +16,8 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <SiteHeader active={section} onChange={setSection} />
-      <main className="mx-auto max-w-[1600px] w-[90%] px-4 sm:px-6 pb-20">
+      <main className="mx-auto max-w-5xl w-[65%] px-4 sm:px-6 pb-20">
+
 
         {section === "calculator" && <CalculatorSection />}
         {section === "expansion" && <ExpansionSection />}
