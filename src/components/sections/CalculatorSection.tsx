@@ -143,15 +143,16 @@ export const CalculatorSection = () => {
               </div>
               {result ? (
                 <>
-                  <div className="font-mono text-sm sm:text-base break-all leading-relaxed text-foreground">
+                  <div className="font-math text-base sm:text-lg break-all leading-relaxed text-foreground tracking-tight">
                     {formatBigInt(result.value)}
                   </div>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground font-math">
                     <span><span className="text-accent font-semibold">{result.value.toString().length}</span> digits</span>
                     <span><span className="text-accent font-semibold">{result.elapsed.toFixed(2)}</span> ms</span>
                     <span>symmetry C(n,r)=C(n,n−r)</span>
                   </div>
                 </>
+
               ) : (
                 <div className="text-sm text-destructive">Invalid input — ensure 0 ≤ r ≤ n.</div>
               )}
