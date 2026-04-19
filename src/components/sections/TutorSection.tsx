@@ -176,7 +176,8 @@ export const TutorSection = () => {
                   )}
                 >
                   {m.role === "assistant" ? (
-                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-math font-normal text-lg">
+                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-h3:mt-4 prose-h3:mb-2 prose-h3:text-primary prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-math font-normal text-lg">
+
 
 
                       {typeof ReactMarkdown === 'function' || typeof ReactMarkdown === 'object' ? (
