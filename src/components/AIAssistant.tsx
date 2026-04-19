@@ -112,7 +112,8 @@ export const AIAssistant = () => {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 flex h-[650px] w-[500px] flex-col border border-border/60 bg-card/95 backdrop-blur-md shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300 overflow-hidden">
+        <Card className="fixed bottom-24 right-6 z-50 flex h-[500px] w-[380px] flex-col border border-border/60 bg-card/95 backdrop-blur-md shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300 overflow-hidden">
+
 
           <div className="flex items-center justify-between border-b border-border/60 p-4 bg-primary/5">
             <span className="text-sm font-bold text-primary tracking-widest uppercase">KAMARAMPAKA</span>
