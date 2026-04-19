@@ -112,7 +112,8 @@ export const AIAssistant = () => {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 flex h-[500px] w-[380px] flex-col border border-border/60 bg-card/95 backdrop-blur-md shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300 overflow-hidden">
+        <Card className="fixed bottom-24 right-6 z-50 flex h-[650px] w-[500px] flex-col border border-border/60 bg-card/95 backdrop-blur-md shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300 overflow-hidden">
+
           <div className="flex items-center justify-between border-b border-border/60 p-4 bg-primary/5">
             <span className="text-sm font-bold text-primary tracking-widest uppercase">KAMARAMPAKA</span>
             <Button
@@ -127,27 +128,39 @@ export const AIAssistant = () => {
 
           <ScrollArea className="flex-1 p-4" ref={scrollRef}>
             <div className="flex flex-col gap-4 py-2">
-              {messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    "flex flex-col",
-                    m.role === "user" ? "items-end" : "items-start"
-                  )}
-                >
+              {messages.map((m, i) => {
+                const isMath = m.content.includes("Step-by-Step Solution") || m.content.includes("Formula") || m.content.includes("÷");
+                const isCode = m.content.includes("Code Example") || m.content.includes("```");
+                const isDebug = m.content.includes("Solution Steps") || m.content.includes("Debugging");
+
+                return (
                   <div
+                    key={i}
                     className={cn(
-                      "max-w-[90%] rounded-2xl px-5 py-4 text-[1.1rem] leading-relaxed shadow-sm",
-                      m.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-foreground border border-border"
+                      "flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300",
+                      m.role === "user" ? "items-end" : "items-start"
                     )}
                   >
-                    {m.content || "..."}
+                    <div
+                      className={cn(
+                        "max-w-[90%] rounded-2xl px-5 py-4 text-base leading-relaxed shadow-md transition-colors duration-500",
+                        m.role === "user"
+                          ? "bg-primary text-primary-foreground shadow-primary/20"
+                          : cn(
+                              "bg-secondary text-foreground border border-border",
+                              isMath && "bg-blue-500/10 border-blue-500/20 shadow-blue-500/5 font-math text-lg",
+                              isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono shadow-xl",
+                              isDebug && "bg-teal-500/10 border-teal-500/20 shadow-teal-500/5"
+                            )
+                      )}
+                    >
+                      {m.content || "..."}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
+
           </ScrollArea>
 
           <div className="border-t border-border/60 p-4 bg-background/50">

@@ -159,40 +159,52 @@ export const TutorSection = () => {
             )}
 
 
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "flex",
-                  m.role === "user" ? "justify-end" : "justify-start",
-                )}
-              >
+            {messages.map((m, i) => {
+              const isMath = m.content.includes("Step-by-Step Solution") || m.content.includes("Formula") || m.content.includes("÷");
+              const isCode = m.content.includes("Code Example") || m.content.includes("```");
+              const isDebug = m.content.includes("Solution Steps") || m.content.includes("Debugging");
+
+              return (
                 <div
+                  key={i}
                   className={cn(
-                    "max-w-[90%] rounded-2xl px-5 py-3.5 text-sm shadow-sm leading-relaxed",
-                    m.role === "user"
-                      ? "bg-primary text-primary-foreground border border-primary/20"
-                      : "bg-secondary text-foreground border border-border",
+                    "flex animate-in fade-in slide-in-from-bottom-2 duration-300",
+                    m.role === "user" ? "justify-end" : "justify-start",
                   )}
                 >
-                  {m.role === "assistant" ? (
-                    <div className="prose prose-sm max-w-none prose-p:my-2 prose-h3:mt-4 prose-h3:mb-2 prose-h3:text-primary prose-pre:bg-background/60 prose-pre:border prose-pre:border-border prose-code:text-primary dark:prose-invert font-math font-normal text-lg">
-
-
-
-                      {typeof ReactMarkdown === 'function' || typeof ReactMarkdown === 'object' ? (
-                        <ReactMarkdown>{m.content || "..."}</ReactMarkdown>
-                      ) : (
-                        <p className="whitespace-pre-wrap leading-relaxed">{m.content || "..."}</p>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="whitespace-pre-wrap leading-relaxed font-normal">{m.content}</p>
-
-                  )}
+                  <div
+                    className={cn(
+                      "max-w-[90%] rounded-2xl px-5 py-4 text-sm shadow-md leading-relaxed transition-colors duration-500",
+                      m.role === "user"
+                        ? "bg-primary text-primary-foreground border border-primary/20 shadow-primary/20"
+                        : cn(
+                            "bg-secondary border border-border",
+                            isMath && "bg-blue-500/5 border-blue-500/20 text-foreground shadow-blue-500/5",
+                            isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono shadow-xl",
+                            isDebug && "bg-teal-500/5 border-teal-500/20 text-foreground shadow-teal-500/5"
+                          ),
+                    )}
+                  >
+                    {m.role === "assistant" ? (
+                      <div className={cn(
+                        "prose prose-sm max-w-none prose-p:my-2 prose-h3:mt-4 prose-h3:mb-2 prose-h3:text-primary prose-pre:bg-zinc-900/80 prose-pre:border prose-pre:border-zinc-800 prose-code:text-primary dark:prose-invert font-normal text-lg",
+                        isMath && "font-math",
+                        isCode && "font-mono text-base prose-pre:bg-black/40"
+                      )}>
+                        {typeof ReactMarkdown === 'function' || typeof ReactMarkdown === 'object' ? (
+                          <ReactMarkdown>{m.content || "..."}</ReactMarkdown>
+                        ) : (
+                          <p className="whitespace-pre-wrap leading-relaxed">{m.content || "..."}</p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="whitespace-pre-wrap leading-relaxed font-normal">{m.content}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+
 
             {loading && messages[messages.length - 1]?.content === "" && (
                <div className="flex justify-start">
