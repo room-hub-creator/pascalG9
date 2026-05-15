@@ -163,16 +163,16 @@ export const AIAssistant = () => {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-[100px] right-4 left-4 sm:left-auto sm:right-6 z-50 flex h-[calc(100dvh-140px)] sm:h-[600px] sm:w-[420px] flex-col border border-border/60 bg-card/98 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in slide-in-from-bottom-10 duration-500 overflow-hidden rounded-[2.5rem] sm:rounded-3xl">
+        <Card className="fixed bottom-[85px] right-4 left-4 sm:left-auto sm:right-6 z-50 flex h-[calc(100dvh-120px)] sm:h-[460px] sm:w-[360px] flex-col border border-border/60 bg-card/98 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in slide-in-from-bottom-10 duration-500 overflow-hidden rounded-[1.5rem] sm:rounded-2xl">
           
-          <div className="flex items-center justify-between border-b border-border/60 p-5 bg-primary/5">
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-black text-primary tracking-[0.2em] uppercase opacity-80">Brain Architecture</span>
-              <div className="flex gap-2 p-1 bg-background/50 rounded-lg border border-border/40">
+          <div className="flex items-center justify-between border-b border-border/60 p-4 bg-primary/5">
+            <div className="flex flex-col gap-1">
+              <span className="text-[9px] font-black text-primary tracking-[0.2em] uppercase opacity-80">Brain Architecture</span>
+              <div className="flex gap-1.5 p-1 bg-background/50 rounded-lg border border-border/40">
                 <button 
                   onClick={() => setModel("groq")}
                   className={cn(
-                    "px-3 py-1 text-[10px] uppercase font-black transition-all rounded-md",
+                    "px-2 py-0.5 text-[9px] uppercase font-black transition-all rounded-md",
                     model === "groq" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -181,7 +181,7 @@ export const AIAssistant = () => {
                 <button 
                   onClick={() => setModel("gemini")}
                   className={cn(
-                    "px-3 py-1 text-[10px] uppercase font-black transition-all rounded-md",
+                    "px-2 py-0.5 text-[9px] uppercase font-black transition-all rounded-md",
                     model === "gemini" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -193,14 +193,14 @@ export const AIAssistant = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="h-10 w-10 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+              className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </Button>
           </div>
 
-          <ScrollArea className="flex-1 px-4 py-2" ref={scrollRef}>
-            <div className="flex flex-col gap-5 py-4">
+          <ScrollArea className="flex-1 px-3 py-1" ref={scrollRef}>
+            <div className="flex flex-col gap-4 py-3">
               {messages.map((m, i) => {
                 const isMath = m.content.includes("Step-by-Step Solution") || m.content.includes("Formula") || m.content.includes("÷") || m.content.includes("×");
                 const isCode = m.content.includes("Code Example") || m.content.includes("```");
@@ -209,30 +209,30 @@ export const AIAssistant = () => {
                   <div
                     key={i}
                     className={cn(
-                      "flex flex-col gap-1.5 animate-in fade-in slide-in-from-bottom-4 duration-500",
+                      "flex flex-col gap-1 animate-in fade-in slide-in-from-bottom-2 duration-400",
                       m.role === "user" ? "items-end" : "items-start"
                     )}
                   >
-                    <span className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground px-2">
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground px-1.5">
                       {m.role === "user" ? "You" : "KAMARAMPAKA"}
                     </span>
                     <div
                       className={cn(
-                        "max-w-[85%] rounded-[1.5rem] px-5 py-4 text-[15px] leading-relaxed shadow-sm transition-all duration-300",
+                        "max-w-[88%] rounded-[1.25rem] px-4 py-3 text-[13px] leading-relaxed shadow-sm transition-all duration-300",
                         m.role === "user"
                           ? "bg-primary text-primary-foreground rounded-tr-none shadow-primary/10"
                           : cn(
                               "bg-secondary/50 text-foreground border border-border/40 rounded-tl-none",
-                              isMath && "bg-blue-500/5 border-blue-500/20 font-serif text-[17px] italic",
-                              isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono text-[13px]"
+                              isMath && "bg-blue-500/5 border-blue-500/20 font-serif text-[15px] italic",
+                              isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono text-[12px]"
                             )
                       )}
                     >
                       {m.content || (
                         <div className="flex gap-1 py-1">
-                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce" />
+                          <span className="h-1 w-1 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                          <span className="h-1 w-1 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                          <span className="h-1 w-1 bg-primary/40 rounded-full animate-bounce" />
                         </div>
                       )}
                     </div>
@@ -242,7 +242,7 @@ export const AIAssistant = () => {
             </div>
           </ScrollArea>
 
-          <div className="p-4 bg-background/80 border-t border-border/40">
+          <div className="p-3 bg-background/80 border-t border-border/40">
             <div className="relative flex items-center">
               <Input
                 value={input}
@@ -250,16 +250,16 @@ export const AIAssistant = () => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSend();
                 }}
-                placeholder="Ask KAMARAMPAKA anything..."
-                className="pr-12 bg-secondary/30 border-border/40 focus:border-primary/40 rounded-2xl h-12 text-[15px]"
+                placeholder="Ask KAMARAMPAKA..."
+                className="pr-10 bg-secondary/30 border-border/40 focus:border-primary/40 rounded-xl h-10 text-[13px]"
               />
               <Button 
                 onClick={handleSend} 
                 disabled={isTyping || !input.trim()} 
                 size="icon"
-                className="absolute right-1.5 h-9 w-9 rounded-xl shadow-lg shadow-primary/20"
+                className="absolute right-1 h-8 w-8 rounded-lg shadow-lg shadow-primary/20"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m5 12 7-7 7 7" />
                   <path d="M12 19V5" />
                 </svg>

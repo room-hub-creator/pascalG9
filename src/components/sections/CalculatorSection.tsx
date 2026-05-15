@@ -56,10 +56,10 @@ export const CalculatorSection = () => {
           <Sparkles className="h-3.5 w-3.5" />
           BIGINT PRECISION ENGINE
         </div>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight">
           Pascal's triangle, <span className="text-gradient">computed exactly.</span>
         </h1>
-        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-lg">
           Enter <code className="text-primary font-mono">n</code> and{" "}
           <code className="text-primary font-mono">r</code> — the triangle below highlights that
           cell and recomputes its exact value with BigInt precision.
@@ -67,28 +67,25 @@ export const CalculatorSection = () => {
       </section>
 
       {/* Calculator + Triangle grid */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left: inputs */}
         <Card className="border-border/60 shadow-[var(--shadow-card)] bg-card/80 backdrop-blur">
-          <CardContent className="p-6 sm:p-8 space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-xs tracking-[0.2em] text-accent font-semibold uppercase">
-                <LayoutGrid className="h-3.5 w-3.5" />
+          <CardContent className="p-4 sm:p-6 space-y-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-accent font-semibold uppercase">
+                <LayoutGrid className="h-3 w-3" />
                 Binomial Coefficient
               </div>
-              <h2 className="text-3xl font-bold">
+              <h2 className="text-2xl font-bold">
                 Compute <span className="font-mono text-gradient">C(n, r)</span>
               </h2>
-              <p className="text-sm text-muted-foreground">
-                Inputs drive the triangle below — exact precision up to row 1,000.
-              </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
                 <div className="flex items-baseline justify-between">
-                  <Label htmlFor="n" className="font-mono text-base">n</Label>
-                  <span className="text-[10px] tracking-widest text-muted-foreground">MAX 1000</span>
+                  <Label htmlFor="n" className="font-mono text-sm">n</Label>
+                  <span className="text-[9px] tracking-widest text-muted-foreground">MAX 1000</span>
                 </div>
                 <Input
                   id="n"
@@ -97,13 +94,13 @@ export const CalculatorSection = () => {
                   max={1000}
                   value={n}
                   onChange={(e) => setN(Math.max(0, Math.min(1000, parseInt(e.target.value || "0", 10))))}
-                  className="h-14 text-2xl font-mono bg-secondary/60 border-border/60 focus-visible:ring-primary"
+                  className="h-11 text-lg font-mono bg-secondary/40 border-border/60 focus-visible:ring-primary"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="flex items-baseline justify-between">
-                  <Label htmlFor="r" className="font-mono text-base">r</Label>
-                  <span className="text-[10px] tracking-widest text-muted-foreground">MAX {n}</span>
+                  <Label htmlFor="r" className="font-mono text-sm">r</Label>
+                  <span className="text-[9px] tracking-widest text-muted-foreground">MAX {n}</span>
                 </div>
                 <Input
                   id="r"
@@ -112,7 +109,7 @@ export const CalculatorSection = () => {
                   max={n}
                   value={r}
                   onChange={(e) => setR(Math.max(0, Math.min(n, parseInt(e.target.value || "0", 10))))}
-                  className="h-14 text-2xl font-mono bg-secondary/60 border-border/60 focus-visible:ring-primary"
+                  className="h-11 text-lg font-mono bg-secondary/40 border-border/60 focus-visible:ring-primary"
                 />
               </div>
             </div>
