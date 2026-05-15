@@ -6,15 +6,19 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { getGroqKey, GROQ_MODEL, GROQ_SYSTEM_PROMPT } from "@/lib/groq";
+import { getGeminiKey, GEMINI_MODEL, GEMINI_SYSTEM_PROMPT } from "@/lib/gemini";
 
 interface Message {
   role: "bot" | "user";
   content: string;
 }
 
+type ModelType = "groq" | "gemini";
+
 export const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [model, setModel] = useState<ModelType>("groq");
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "bot",
@@ -47,45 +51,92 @@ export const AIAssistant = () => {
     setMessages((prev) => [...prev, { role: "bot", content: "" }]);
 
     try {
-      const apiKey = getGroqKey();
-      const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: GROQ_MODEL,
-          stream: true,
-          messages: [{ role: "system", content: GROQ_SYSTEM_PROMPT }, ...nextForAi],
-        }),
-      });
+      if (model === "groq") {
+        const apiKey = getGroqKey();
+        const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: GROQ_MODEL,
+            stream: true,
+            messages: [{ role: "system", content: GROQ_SYSTEM_PROMPT }, ...nextForAi],
+          }),
+        });
 
-      if (!resp.ok) throw new Error("API Request Failed");
+        if (!resp.ok) throw new Error("Groq API Request Failed");
 
-      const reader = resp.body?.getReader();
-      const decoder = new TextDecoder();
-      let acc = "";
+        const reader = resp.body?.getReader();
+        const decoder = new TextDecoder();
+        let acc = "";
 
-      while (true) {
-        const { done, value } = await reader!.read();
-        if (done) break;
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const jsonStr = line.replace("data: ", "").trim();
-            if (jsonStr === "[DONE]") break;
-            try {
-              const json = JSON.parse(jsonStr);
-              const delta = json.choices[0]?.delta?.content || "";
-              acc += delta;
-              setMessages((p) => {
-                const copy = [...p];
-                copy[copy.length - 1] = { role: "bot", content: acc };
-                return copy;
-              });
-            } catch (e) {}
+        while (true) {
+          const { done, value } = await reader!.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split("\n");
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              const jsonStr = line.replace("data: ", "").trim();
+              if (jsonStr === "[DONE]") break;
+              try {
+                const json = JSON.parse(jsonStr);
+                const delta = json.choices[0]?.delta?.content || "";
+                acc += delta;
+                setMessages((p) => {
+                  const copy = [...p];
+                  copy[copy.length - 1] = { role: "bot", content: acc };
+                  return copy;
+                });
+              } catch (e) {}
+            }
+          }
+        }
+      } else {
+        const apiKey = getGeminiKey();
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${apiKey}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              { role: "user", parts: [{ text: GEMINI_SYSTEM_PROMPT }] },
+              ...nextForAi.map(m => ({
+                role: m.role === "assistant" ? "model" : "user",
+                parts: [{ text: m.content }]
+              }))
+            ]
+          }),
+        });
+
+        if (!resp.ok) throw new Error("Gemini API Request Failed");
+
+        const reader = resp.body?.getReader();
+        const decoder = new TextDecoder();
+        let acc = "";
+
+        while (true) {
+          const { done, value } = await reader!.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split("\n");
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              try {
+                const jsonStr = line.replace("data: ", "").trim();
+                const json = JSON.parse(jsonStr);
+                const delta = json.candidates[0]?.content?.parts[0]?.text || "";
+                acc += delta;
+                setMessages((p) => {
+                  const copy = [...p];
+                  copy[copy.length - 1] = { role: "bot", content: acc };
+                  return copy;
+                });
+              } catch (e) {}
+            }
           }
         }
       }
@@ -112,71 +163,106 @@ export const AIAssistant = () => {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 flex h-[500px] w-[380px] flex-col border border-border/60 bg-card/95 backdrop-blur-md shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300 overflow-hidden">
-
-
-          <div className="flex items-center justify-between border-b border-border/60 p-4 bg-primary/5">
-            <span className="text-sm font-bold text-primary tracking-widest uppercase">KAMARAMPAKA</span>
+        <Card className="fixed bottom-[100px] right-4 left-4 sm:left-auto sm:right-6 z-50 flex h-[calc(100dvh-140px)] sm:h-[600px] sm:w-[420px] flex-col border border-border/60 bg-card/98 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in slide-in-from-bottom-10 duration-500 overflow-hidden rounded-[2.5rem] sm:rounded-3xl">
+          
+          <div className="flex items-center justify-between border-b border-border/60 p-5 bg-primary/5">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[10px] font-black text-primary tracking-[0.2em] uppercase opacity-80">Brain Architecture</span>
+              <div className="flex gap-2 p-1 bg-background/50 rounded-lg border border-border/40">
+                <button 
+                  onClick={() => setModel("groq")}
+                  className={cn(
+                    "px-3 py-1 text-[10px] uppercase font-black transition-all rounded-md",
+                    model === "groq" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Llama 3
+                </button>
+                <button 
+                  onClick={() => setModel("gemini")}
+                  className={cn(
+                    "px-3 py-1 text-[10px] uppercase font-black transition-all rounded-md",
+                    model === "gemini" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Gemini
+                </button>
+              </div>
+            </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-muted-foreground"
+              className="h-10 w-10 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </Button>
           </div>
 
-          <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-            <div className="flex flex-col gap-4 py-2">
+          <ScrollArea className="flex-1 px-4 py-2" ref={scrollRef}>
+            <div className="flex flex-col gap-5 py-4">
               {messages.map((m, i) => {
-                const isMath = m.content.includes("Step-by-Step Solution") || m.content.includes("Formula") || m.content.includes("÷");
+                const isMath = m.content.includes("Step-by-Step Solution") || m.content.includes("Formula") || m.content.includes("÷") || m.content.includes("×");
                 const isCode = m.content.includes("Code Example") || m.content.includes("```");
-                const isDebug = m.content.includes("Solution Steps") || m.content.includes("Debugging");
 
                 return (
                   <div
                     key={i}
                     className={cn(
-                      "flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300",
+                      "flex flex-col gap-1.5 animate-in fade-in slide-in-from-bottom-4 duration-500",
                       m.role === "user" ? "items-end" : "items-start"
                     )}
                   >
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground px-2">
+                      {m.role === "user" ? "You" : "KAMARAMPAKA"}
+                    </span>
                     <div
                       className={cn(
-                        "max-w-[90%] rounded-2xl px-5 py-4 text-base leading-relaxed shadow-md transition-colors duration-500",
+                        "max-w-[85%] rounded-[1.5rem] px-5 py-4 text-[15px] leading-relaxed shadow-sm transition-all duration-300",
                         m.role === "user"
-                          ? "bg-primary text-primary-foreground shadow-primary/20"
+                          ? "bg-primary text-primary-foreground rounded-tr-none shadow-primary/10"
                           : cn(
-                              "bg-secondary text-foreground border border-border",
-                              isMath && "bg-blue-500/10 border-blue-500/20 shadow-blue-500/5 font-math text-lg",
-                              isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono shadow-xl",
-                              isDebug && "bg-teal-500/10 border-teal-500/20 shadow-teal-500/5"
+                              "bg-secondary/50 text-foreground border border-border/40 rounded-tl-none",
+                              isMath && "bg-blue-500/5 border-blue-500/20 font-serif text-[17px] italic",
+                              isCode && "bg-zinc-950 text-zinc-100 border-zinc-800 font-mono text-[13px]"
                             )
                       )}
                     >
-                      {m.content || "..."}
+                      {m.content || (
+                        <div className="flex gap-1 py-1">
+                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                          <span className="h-1.5 w-1.5 bg-primary/40 rounded-full animate-bounce" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
               })}
             </div>
-
           </ScrollArea>
 
-          <div className="border-t border-border/60 p-4 bg-background/50">
-            <div className="flex gap-2">
+          <div className="p-4 bg-background/80 border-t border-border/40">
+            <div className="relative flex items-center">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSend();
                 }}
-                placeholder="Type here..."
-                className="bg-secondary/40 border-border/40 text-base h-11"
+                placeholder="Ask KAMARAMPAKA anything..."
+                className="pr-12 bg-secondary/30 border-border/40 focus:border-primary/40 rounded-2xl h-12 text-[15px]"
               />
-              <Button onClick={handleSend} disabled={isTyping} className="font-bold text-base h-11">
-                Send
+              <Button 
+                onClick={handleSend} 
+                disabled={isTyping || !input.trim()} 
+                size="icon"
+                className="absolute right-1.5 h-9 w-9 rounded-xl shadow-lg shadow-primary/20"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m5 12 7-7 7 7" />
+                  <path d="M12 19V5" />
+                </svg>
               </Button>
             </div>
           </div>

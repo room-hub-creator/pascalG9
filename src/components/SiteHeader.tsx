@@ -41,11 +41,27 @@ export const SiteHeader = ({ active, onChange }: SiteHeaderProps) => {
         {/* Logo Left */}
         <button
           onClick={() => onChange("calculator")}
-          className="flex items-center gap-2 group"
+          className="flex items-center gap-3 group transition-transform active:scale-95"
         >
-          <div className="font-black text-2xl tracking-tighter text-primary">PASCAL</div>
-          <div className="hidden sm:block h-6 w-[1px] bg-border/50 mx-2" />
-          <div className="hidden sm:block text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-black">Binomial Engine</div>
+          <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform text-white">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 20H22L12 2Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="12" cy="7" r="1.2" fill="currentColor"/>
+              <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
+              <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
+              <circle cx="6" cy="17" r="1.2" fill="currentColor"/>
+              <circle cx="12" cy="17" r="1.2" fill="currentColor"/>
+              <circle cx="18" cy="17" r="1.2" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className="flex flex-col items-start">
+            <span className="font-black text-2xl leading-none tracking-tighter text-foreground group-hover:text-primary transition-colors">
+              PASCAL<span className="text-primary">.ai</span>
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-bold">
+              Binomial Engine
+            </span>
+          </div>
         </button>
 
         {/* Nav Right */}
