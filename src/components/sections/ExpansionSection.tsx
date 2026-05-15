@@ -17,10 +17,10 @@ export const ExpansionSection = () => {
           <FunctionSquare className="h-3.5 w-3.5" />
           BINOMIAL EXPANSION
         </div>
-        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
           Expand <span className="font-mono text-gradient">(a + b)<sup>n</sup></span>
         </h2>
-        <p className="text-muted-foreground max-w-2xl">
+        <p className="text-sm text-muted-foreground max-w-2xl">
           Each term uses C(n, r) as its coefficient. Try n = 1000 in the calculator — only the
           coefficients are huge, the structure stays the same.
         </p>

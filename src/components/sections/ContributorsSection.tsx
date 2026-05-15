@@ -53,10 +53,10 @@ export const ContributorsSection = () => {
           <Users className="h-3.5 w-3.5" />
           MEET THE TEAM
         </div>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]">
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
           Project <span className="text-gradient">Contributors</span>
         </h1>
-        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
           The brilliant minds behind the MA80443 Pascal Coefficient Project. 
           Dedicated to computational excellence and mathematical precision.
         </p>
